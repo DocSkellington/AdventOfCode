@@ -8,3 +8,9 @@
 
 **/target/
 *.lock
+
+example
+input
+
+**/build/
+*.out
