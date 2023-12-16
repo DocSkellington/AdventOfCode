@@ -1,4 +1,31 @@
 from typing import Callable, Optional
+import os
+
+# From https://gist.github.com/MathisHammel/43aa722469a626504de40744dfe0a3da
+import requests
+
+AOC_COOKIE = "53616c7465645f5f5ee8bf3b11f520e8fce5766cc52d79f084f9d2755f407ba8e8d14e72c6803397db21536b2a72dafd2442550ced85292cbc3f2301af3da6e8"
+YEAR = 2023
+
+def get_input(day):
+    req = requests.get(f'https://adventofcode.com/{YEAR}/day/{day}/input', 
+                       headers={'cookie':'session='+AOC_COOKIE})
+    return req.text
+
+def get_example(day,offset=0):
+    req = requests.get(f'https://adventofcode.com/{YEAR}/day/{day}',
+                       headers={'cookie':'session='+AOC_COOKIE})
+    return req.text.split('<pre><code>')[offset+1].split('</code></pre>')[0]
+
+# Own functions
+
+def setup(day: int) -> None:
+    if os.path.exists("input"):
+        return
+    with open("test", "w") as f:
+        f.write(get_example(day))
+    with open("input", "w") as f:
+        f.write(get_input(day))
 
 def load[T](test: bool, parse: Callable[[str], T]) -> list[T]:
     lines = []
