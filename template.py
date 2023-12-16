@@ -19,7 +19,7 @@ def part1(data: list[str]) -> int:
 def part2(data: list[str]) -> int:
     return 0
 
-print(util.get_input(DAY))
+print(util.setup(DAY))
 print("PART 1")
 print(util.solve_question(parse_line, part1, 0))
 print("PART 2")
