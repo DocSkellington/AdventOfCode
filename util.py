@@ -27,9 +27,9 @@ def setup(day: int) -> None:
     with open("input", "w") as f:
         f.write(get_input(day))
 
-def load[T](test: bool, parse: Callable[[str], T]) -> list[T]:
+def load[T](file_name: str, parse: Callable[[str], T]) -> list[T]:
     lines = []
-    with open("test" if test else "input", "r", encoding="UTF-8") as inF:
+    with open(file_name, "r", encoding="UTF-8") as inF:
         for line in inF.readlines():
             p = parse(line.strip())
             if p is not None:
@@ -37,12 +37,12 @@ def load[T](test: bool, parse: Callable[[str], T]) -> list[T]:
     return lines
 
 
-def solve_question[I, O](parse_input: Callable[[str], I], question_solver: Callable[[I], O], expected_test: O) -> Optional[O]:
-    data = load(True, parse_input)
+def solve_question[I, O](parse_input: Callable[[str], I], question_solver: Callable[[I], O], expected_test: O, test_name: str = "test") -> Optional[O]:
+    data = load(test_name, parse_input)
     output = question_solver(data)
     if output == expected_test:
         print("Example ok")
-        data = load(False, parse_input)
+        data = load("input", parse_input)
         return question_solver(data)
     print(f"Example wrong. Expected {expected_test} but got {output}")
     return None
