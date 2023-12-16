@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from functools import *
 from itertools import *
 from typing import *
+from math import *
 
 sys.path.append("..")
 import util
