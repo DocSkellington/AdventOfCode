@@ -1,3 +1,3 @@
 # AdventOfCode
 
-Check out the branches.
+Each year is on its own branch. This one is basically empty.
