@@ -2,7 +2,7 @@ import Data.List
 import Data.Maybe
 import Debug.Trace
 
-type Equation = (Integer, [Integer])
+type Equation = (Int, [Int])
 
 parseLine :: String -> Equation
 parseLine s =
@@ -19,17 +19,10 @@ loadFile file = do
   content <- readFile file
   return (parseLines (lines content))
 
-concatNumbers :: Integer -> Integer -> Integer
-concatNumbers a b = read (show a ++ show b)
+concatNumbers :: Int -> Int -> Int
+concatNumbers a b = a * 10 ^ floor (logBase 10 (fromIntegral b) + 1) + b
 
-data Op = Add | Mul | Concat deriving (Enum)
-
-apply :: Op -> Integer -> Integer -> Integer
-apply Add x y = x + y
-apply Mul x y = x * y
-apply Concat x y = concatNumbers x y
-
-isCalibration :: [Op] -> Integer -> Equation -> Bool
+isCalibration :: [Int -> Int -> Int] -> Int -> Equation -> Bool
 isCalibration _ acc (target, []) = target == acc
 isCalibration operators acc (target, numbers)
   | acc > target = False
@@ -37,28 +30,28 @@ isCalibration operators acc (target, numbers)
       or
         [ isCalibration
             operators
-            (apply op acc (head numbers))
+            (op acc (head numbers))
             (target, tail numbers)
           | op <- operators
         ]
 
-puzzle1 :: [Equation] -> Integer
+puzzle1 :: [Equation] -> Int
 puzzle1 equations =
   let calibrations =
         filter
           ( \(target, numbers) ->
-              isCalibration [Add, Mul] (head numbers) (target, tail numbers)
+              isCalibration [(+), (*)] (head numbers) (target, tail numbers)
           )
           equations
       evaluations = map fst calibrations
    in sum evaluations
 
-puzzle2 :: [Equation] -> Integer
+puzzle2 :: [Equation] -> Int
 puzzle2 equations =
   let calibrations =
         filter
           ( \(target, numbers) ->
-              isCalibration [Add, Mul, Concat] (head numbers) (target, tail numbers)
+              isCalibration [(+), (*), concatNumbers] (head numbers) (target, tail numbers)
           )
           equations
       evaluations = map fst calibrations
@@ -69,7 +62,6 @@ main =
   do
     print "Test"
     equations <- loadFile "test"
-    print equations
     print (puzzle1 equations)
     print (puzzle2 equations)
 
