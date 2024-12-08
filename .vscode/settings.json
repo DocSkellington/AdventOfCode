@@ -1,6 +1,8 @@
 {
   "cSpell.words": [
+    "antinodes",
     "foldl",
-    "foldr"
+    "foldr",
+    "uncurry"
   ]
 }
