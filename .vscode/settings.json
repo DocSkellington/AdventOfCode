@@ -3,6 +3,8 @@
     "antinodes",
     "foldl",
     "foldr",
+    "topo",
+    "trailhead",
     "uncurry"
   ]
 }
