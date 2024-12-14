@@ -3,6 +3,7 @@
     "antinodes",
     "foldl",
     "foldr",
+    "nmod",
     "topo",
     "trailhead",
     "uncurry"
